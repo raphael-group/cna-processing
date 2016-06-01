@@ -759,7 +759,10 @@ def get_config(args):
 
     # Get and set up config file
     config = ConfigParser.SafeConfigParser()
-    found = config.read('gistic.cfg')
+
+    cfg_loc = os.path.dirname(os.path.realpath(sys.argv[0]))
+    found = config.read(os.path.join(cfg_loc, 'gistic.cfg'))
+
     if not found:
         raise IOError("Config file not found!")
 
