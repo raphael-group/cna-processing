@@ -67,7 +67,7 @@ def get_peak_targets(target_genes, amp_table, del_table):
                 if line[0] == 'i':
                     continue
 
-                if [cna_type] == 'Amp':
+                if cna_type == 'Amp':
                     found_targets['amp_peaks'] += 1
                 else:
                     found_targets['del_peaks'] += 1
@@ -75,7 +75,6 @@ def get_peak_targets(target_genes, amp_table, del_table):
                 widepeak_genes, maxpeak_genes, chromosome = parse_table_line(line)
                 widepeak_set = set(widepeak_genes)
                 maxpeak_set = set(maxpeak_genes)
-
 
                 # If there is only one gene in the widepeak, add it as a target
                 # as it will also be in the max peak
@@ -127,7 +126,6 @@ def load_target_genes(gene_target_file):
             else:
                 targets['Amp'].add(gene)
                 targets['Del'].add(gene)
-
     return targets
 
 def load_focal_matrix_data_wrapper(config, targets):
@@ -609,7 +607,7 @@ def read_peak_file(filein, peak_q_cutoff):
         elif l.startswith("residual"):
             v = l.rstrip().split('\t')
             for i, q in enumerate(v[1:]):
-                if float(q) > peak_q_cutoff:
+                if float(q) > peak_q_cutoff and ind2bd[i] in bound: # catch the case where there is more than one widepeak with the same boundaries
                     del bound[ind2bd[i]]
         elif l.startswith("q value"):
             continue
